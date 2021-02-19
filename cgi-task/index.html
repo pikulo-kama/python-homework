@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+
+<form action="cgi-bin/form.py">
+    <div class="d-inline-flex flex-column ml-5 mt-5">
+
+        <div class="d-inline-flex flex-row">
+            First: <input type="text" name="first">
+            Second: <input type="text" name="second">
+        </div>
+
+        <br>
+
+        <div class="d-inline-block">
+            <label for="math">Maths</label>
+            <input type="checkbox" id="math" name="subject_one_1" value="Maths">
+        </div>
+
+        <div class="d-inline-block">
+            <label for="biology">Biology</label>
+            <input type="checkbox" id="biology" name="subject_one_2" value="Biology">
+        </div>
+
+        <div class="d-inline-block">
+            <label for="chemistry">Chemistry</label>
+            <input type="checkbox" id="chemistry" name="subject_one_3" value="Chemistry">
+        </div>
+
+        <div class="d-inline-block">
+            <label for="history">History</label>
+            <input type="checkbox" id="history" name="subject_one_4" value="History">
+        </div>
+
+        <input type="hidden" name="fields_count" value="4">
+
+        <br>
+
+        <div class="d-inline-block">
+            <label for="english">English</label>
+            <input type="radio" id="english" name="subject_two" value="English">
+        </div>
+
+        <div class="d-inline-block">
+            <label for="german">German</label>
+            <input type="radio" id="german" name="subject_two" value="German">
+        </div>
+
+        <br>
+
+        <input type="submit" value="Submit">
+    </div>
+</form>
+
+</body>
+</html>
