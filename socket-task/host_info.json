@@ -1,0 +1,5 @@
+{
+  "address": "localhost",
+  "port": 5001,
+  "buffer_size": 1024
+}
