@@ -1,0 +1,31 @@
+{% extends "parent.html" %}
+
+{%block title%}Contact us{% endblock %}
+
+{%block content%}
+
+{%from "__render_field.html" import render_field%}
+
+<div class="form-wrapper" align="left">
+
+    <form class="mx-5" method="POST" action="{{ url_for('contact') }}">
+
+        {{form.csrf_token}}
+
+        <div class="flash_message">
+            {% for msg in get_flashed_messages() %}<strong>{{msg}}</strong>{% endfor %}
+        </div>
+
+        {% if cookie['username'] is none %}
+        {{ render_field(form.name) }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.body) }}
+        {%else%}
+        {{ render_field(form.body) }}
+        {%endif%}
+        <br>
+        {{ form.submit(class = "btn btn-light btn-lg") }}
+
+    </form>
+</div>
+{% endblock %}

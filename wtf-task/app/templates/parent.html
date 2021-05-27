@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+          crossorigin="anonymous">
+    <title>{%block title%}{% endblock %}</title>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+
+    {% for message in messages %}
+    <button type="button" class="close position-absolute" data-dismiss="alert" aria-label="Close">
+        <p>{{message}}</p><span aria-hidden="true">&times;</span>
+    </button>
+    {% endfor %}
+
+    {% endif %}
+    {% endwith %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg" style="background-color: white;">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+
+                {% for url, verbal in menu.items() %}
+                <a class="nav-link active" href="{{url}}" style="font-size:25px;">{{verbal}}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+{%block content%}
+{% endblock %}
+
+</body>
+</html>
