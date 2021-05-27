@@ -1,0 +1,26 @@
+{% extends "parent.html" %}
+
+{%block title%}
+Welcome to mini site on Flask
+{% endblock %}
+
+{%block content%}
+<table class="table">
+<tr>
+    <td>Operating System</td>
+    <td>{{operating_system}}</td>
+</tr>
+<tr>
+    <td>User agent</td>
+    <td>{{user_agent}}</td>
+</tr>
+<tr>
+    <td>Python version</td>
+    <td>{{python_version}}</td>
+</tr>
+<tr>
+    <td>Current time</td>
+    <td>{{time}}</td>
+</tr>
+</table>
+{% endblock %}
