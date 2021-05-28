@@ -1,0 +1,36 @@
+{% extends "task/parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+
+<table class="table table-responsive">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Created</th>
+        <th>Priority</th>
+        <th>Is Done</th>
+    </tr>
+    </thead>
+    {% if tasks|length > 0 %}
+    <tbody>
+    {% for task in tasks %}
+    <tr>
+        <td>{{task.id}}</td>
+        <td><a class="btn btn-secondary btn-sm" href="{{url_for('find_by_id', id=task.id)}}">{{task.title}}</a></td>
+        <td>{{task.description}}</td>
+        <td>{{task.created.strftime("%d-%m-%Y")}}</td>
+        <td>{{task.priority.name}}</td>
+        <td>{{task.is_done}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="position-absolute top-50 start-50"><p class="btn-danger">There is no tasks</p></div>
+{% endif %}
+
+{% endblock %}

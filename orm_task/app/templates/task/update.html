@@ -1,0 +1,42 @@
+{% extends "task/parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{%from "macro/_render_field.html" import renderTextField %}
+
+{% block content %}
+<form class="mx-5 mt-5 w-50" action="{{ url_for('update', id=id) }}" method="POST">
+
+    {{ form.csrf_token }}
+
+    {{ renderTextField(form.title, 'title') }}
+
+    <br>
+
+    {{ renderTextField(form.description, 'description')}}
+
+    <br>
+
+    <div class="form-group">
+        <label for="priority">{{ form.priority.label }}</label>
+        <select class="form-control" name="priority" id="priority" aria-describedby="priorityErrors">
+            <option value="LOW" {{'selected' if form.priority.data.name == 'LOW'}}>Low</option>
+            <option value="MEDIUM" {{'selected' if form.priority.data.name == 'MEDIUM'}}>Medium</option>
+            <option value="HIGH" {{'selected' if form.priority.data.name|e == 'HIGH'}}>High</option>
+        </select>
+        {% for error in form.priority.errors %}
+        <small id="priorityErrors" class="form-text text-danger">{{error}}</small>
+        {% endfor %}
+    </div>
+    <br>
+
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="is_done" id="done" {{'checked' if form.is_done}}>
+        <label class="form-check-label" for="done">Done</label>
+    </div>
+
+    <br>
+    {{ form.submit(class = "btn btn-primary")}}
+
+</form>
+{% endblock  %}

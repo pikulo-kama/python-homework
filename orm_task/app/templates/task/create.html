@@ -1,0 +1,36 @@
+{% extends "task/parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{%from "macro/_render_field.html" import renderTextField %}
+
+{% block content %}
+<form class="mx-5 mt-5 w-50" action="{{ url_for('create') }}" method="POST">
+
+    {{ form.csrf_token }}
+
+    {{ renderTextField(form.title, 'title') }}
+
+    <br>
+
+    {{ renderTextField(form.description, 'description')}}
+
+    <br>
+
+    <div class="form-group">
+        <label for="priority">{{ form.priority.label }}</label>
+        <select class="form-control" name="priority" id="priority" aria-describedby="priorityErrors">
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+        </select>
+        {% for error in form.priority.errors %}
+        <small id="priorityErrors" class="form-text text-danger">{{error}}</small>
+        {% endfor %}
+    </div>
+
+    <br>
+    {{ form.submit(class = "btn btn-primary")}}
+
+</form>
+{% endblock  %}

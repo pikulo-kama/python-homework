@@ -1,0 +1,58 @@
+{% extends "task/parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+<div class="mx-5 pt-5">
+
+    <div class="w-50">
+        <h1 class="bg-secondary display-4">{{task.title}}</h1>
+        <p class="bg-warning">Created at {{task.created.strftime("%H:%M on %d-%m-%Y")}}</p>
+    </div>
+
+    <hr>
+
+    <blockquote class="blockquote">
+        <p class="mb-0">Description: {{task.description}}</p>
+    </blockquote>
+
+    <hr>
+
+
+    <div class="d-inline-flex">
+
+        {% if task.priority.name == 'HIGH' %}
+        <p class="h3 btn-danger d-inline-flex"><span class="">&#x26A0</span> High Priority Task</p>
+        {% elif task.priority.name == 'MEDIUM' %}
+        <p class="h3 btn-warning d-inline-flex"><span class="">&#x26A0</span> Medium Priority Task</p>
+        {% elif task.priority.name == 'LOW' %}
+        <p class="h3 btn-success d-inline-flex"><span class="">&#x26A0</span> Low Priority Task</p>
+        {% endif %}
+
+        <div class="px-3">
+            {% if task.is_done %}
+            <i class="h3 icon-check"> Done</i>
+            {% else %}
+            <i class="h3 icon-check-empty"> Done</i>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <br><br><br>
+
+    <div class="d-flex flex-row align-items-start">
+
+        <a class="btn btn-lg btn-primary mr-5" href="{{ url_for('update', id=task.id) }}">Edit</a>
+
+        <form class="pl-2" method="POST">
+
+            {{ form.csrf_token }}
+            <button formaction="{{ url_for('delete', id=task.id)}}" class="btn b<tn-lg btn-danger" type="submit">Delete</button>
+
+        </form>
+    </div>
+
+</div>
+
+{% endblock  %}
