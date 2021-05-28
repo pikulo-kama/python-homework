@@ -2,7 +2,7 @@ from enum import Enum
 
 from flask import flash
 
-from .app import App
+from .application import App
 
 app = App().getApp()
 db = App().getDb()

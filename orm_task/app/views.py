@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_wtf import FlaskForm
 
-from .app import App
+from .application import App
 from .forms import TaskCreateForm, TaskUpdateForm
 from .models import Task
 

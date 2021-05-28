@@ -5,7 +5,7 @@
 {%from "macro/_render_field.html" import renderTextField %}
 
 {% block content %}
-<form class="mx-5 mt-5 w-50" action="{{ url_for('update', id=id) }}" method="POST">
+<form class="mx-5 mt-5 w-50" action="{{ url_for('update', taskId=id) }}" method="POST">
 
     {{ form.csrf_token }}
 
