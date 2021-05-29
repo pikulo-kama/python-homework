@@ -1,0 +1,85 @@
+{% extends "parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{%from "macro/_render_field.html" import renderTextField %}
+
+{% set url = url_for('task_create') if endpoint == 'task_create' else url_for('task_update', taskId=id) %}
+
+{% block content %}
+<form class="mx-5 mt-5 w-50" action="{{url}}" method="POST">
+
+    {{ form.csrf_token }}
+
+    {{ renderTextField(form.title, 'title') }}
+
+    <br>
+
+    {{ renderTextField(form.description, 'description')}}
+
+    <br>
+
+    <div class="form-group">
+        <label for="priority">{{ form.priority.label }}</label>
+        <select class="form-control" name="priority" id="priority" aria-describedby="priorityErrors">
+            {% for value, label in priorities %}
+            <option value="{{value}}" {{'selected' if form.priority.data == value}}>{{label}}</option>
+            {% endfor %}
+        </select>
+        {% for error in form.priority.errors %}
+        <small id="priorityErrors" class="form-text text-danger">{{error}}</small>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select class="form-control" name="category_id" id="category" aria-describedby="categoryErrors">
+            {% for category in categories %}
+            <option {{'selected' if form.category_id.data == category.id}} value="{{category.id}}">{{category.name}}</option>
+            {% endfor %}
+        </select>
+        {% for error in form.priority.errors %}
+        <small id="categoryErrors" class="form-text text-danger">{{error}}</small>
+        {% endfor %}
+    </div>
+
+    <br>
+
+    <select class="form-select" name="employees" aria-label="Disabled select example" multiple>
+        <option value="" disabled>Select responsible employees</option>
+
+        {% if endpoint == 'task_create' %}
+        <option value="" selected>No assignee</option>
+
+        {% for employee in employees %}
+        <option value="{{employee.id}}">{{employee.name}}</option>
+        {% endfor %}
+
+        {% elif endpoint == 'task_update' %}
+        <option value="">No assignee</option>
+
+        {% for employee in employees %}
+        <option value="{{employee.id}}" {{'selected' if employee.id in form.employees.data }}>{{employee.name}}</option>
+        {% endfor %}
+
+        {% endif %}
+    </select>
+
+    {% if endpoint == 'task_update' %}
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="is_done" id="done" {{'checked' if form.is_done.data ==
+        True}}>
+        <label class="form-check-label" for="done">Done</label>
+    </div>
+    {% elif endpoint == 'task_create' %}
+    <input type="hidden" name="is_done" value="0">
+    {% endif %}
+
+    <br>
+
+    {{ form.submit(class = "btn btn-primary")}}
+
+</form>
+{% endblock  %}

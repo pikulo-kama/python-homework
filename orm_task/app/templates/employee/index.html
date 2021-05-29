@@ -1,0 +1,30 @@
+{% extends "parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+
+<table class="table table-responsive">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    {% if employees|length > 0 %}
+    <tbody>
+    {% for employee in employees %}
+    <tr>
+        <td>{{employee.id}}</td>
+        <td>{{employee.name}}</td>
+        <td><a class="btn btn-secondary btn-sm" href="{{url_for('employee_find_by_id', employeeId=employee.id)}}">Visit page</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="position-absolute top-50 start-50"><p class="btn-danger">There is no employees</p></div>
+{% endif %}
+
+{% endblock %}

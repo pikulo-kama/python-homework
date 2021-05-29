@@ -1,4 +1,4 @@
-{% extends "task/parent.html" %}
+{% extends "parent.html" %}
 
 {% block title %} {{title}} {% endblock %}
 
@@ -6,7 +6,9 @@
 <div class="mx-5 pt-5">
 
     <div class="w-50">
-        <h1 class="bg-secondary display-4">{{task.title}}</h1>
+        <h1 class="bg-secondary display-2">{{task.title}}</h1>
+        <h4 class="bg-info ">Category: <a class="text-decoration-none text-success" href="{{ url_for('category_find_by_id', categoryId=task.category_backref.id) }}">{{task.category_backref.name}}</a></h4>
+
         <p class="bg-warning">Created at {{task.created.strftime("%H:%M on %d-%m-%Y")}}</p>
     </div>
 
@@ -18,24 +20,38 @@
 
     <hr>
 
+    {% set priority_color = 'danger' if task.priority.name == 'HIGH' else 'warning' if task.priority.name == 'MEDIUM'
+    else 'success' %}
+
+    {% set class = 'icon-check' if task.is_done else 'icon-check-empty' %}
 
     <div class="d-inline-flex">
 
-        {% if task.priority.name == 'HIGH' %}
-        <p class="h3 btn-danger d-inline-flex"><span class="">&#x26A0</span> High Priority Task</p>
-        {% elif task.priority.name == 'MEDIUM' %}
-        <p class="h3 btn-warning d-inline-flex"><span class="">&#x26A0</span> Medium Priority Task</p>
-        {% elif task.priority.name == 'LOW' %}
-        <p class="h3 btn-success d-inline-flex"><span class="">&#x26A0</span> Low Priority Task</p>
-        {% endif %}
+        <p class="h3 btn-{{priority_color}} d-inline-flex"><span
+                class="">&#x26A0</span>{{task.priority.name[0]}}{{task.priority.name[1:]|lower}} Priority Task
+        </p>
 
         <div class="px-3">
-            {% if task.is_done %}
-            <i class="h3 icon-check"> Done</i>
-            {% else %}
-            <i class="h3 icon-check-empty"> Done</i>
-            {% endif %}
+            <i class="h3 {{class}}"> Done</i>
         </div>
+
+    </div>
+
+    <br><br><br>
+
+    <div class="d-inline-flex flex-column">
+
+        <p class="h4 bg-secondary">Responsible for task: </p>
+
+        {% if task.employee_backref|length > 0 %}
+        <ul>
+            {% for employee in task.employee_backref %}
+            <li class="list-group-item"><a class="text-success" href="{{ url_for('employee_find_by_id', employeeId=employee.id) }}">{{employee.name}}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="h4 text-danger">No assignee</p>
+        {% endif %}
 
     </div>
 
@@ -43,12 +59,14 @@
 
     <div class="d-flex flex-row align-items-start">
 
-        <a class="btn btn-lg btn-primary mr-5" href="{{ url_for('update', taskId=task.id) }}">Edit</a>
+        <a class="btn btn-lg btn-primary mr-5" href="{{ url_for('task_update', taskId=task.id) }}">Edit</a>
 
         <form class="pl-2" method="POST">
 
             {{ form.csrf_token }}
-            <button formaction="{{ url_for('delete', taskId=task.id)}}" class="btn b<tn-lg btn-danger" type="submit">Delete</button>
+            <button formaction="{{ url_for('task_delete', taskId=task.id)}}" class="btn b<tn-lg btn-danger"
+                    type="submit">Delete
+            </button>
 
         </form>
     </div>

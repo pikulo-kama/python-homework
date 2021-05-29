@@ -4,7 +4,8 @@
 
 <div class="form-group">
     <label for="{{id}}">{{field.label}}</label>
-    <input type="text" value="{{ field.data if field.data else '' }}" name="{{name}}" class="form-control" id="{{id}}" aria-describedby="{{idErrors}}">
+    {{ field(class='form-control', **kwargs) | safe }}
+<!--    <input type="text" value="{{ field.data if field.data else '' }}" name="{{name}}" class="form-control" id="{{id}}" aria-describedby="{{idErrors}}">-->
     {% for error in field.errors %}
     <small id="{{idErrors}}" class="form-text text-danger">{{error}}</small>
     {% endfor %}

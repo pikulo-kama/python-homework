@@ -1,0 +1,37 @@
+{% extends "parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{%from "macro/_render_field.html" import renderTextField %}
+
+{% block content %}
+<form class="mx-5 mt-5 w-50" action="{{ url_for(endpoint, employeeId=id) }}" method="POST">
+
+    {{ form.csrf_token }}
+
+    {{ renderTextField(form.name, 'name') }}
+
+    <br>
+
+    {% if endpoint == 'employee_update' %}
+
+    <div class="form-group">
+        <label for="completed">{{form.count_of_completed_tasks.label}}</label>
+        <input type="text" value="{{form.count_of_completed_tasks.data}}" name="{{form.count_of_completed_tasks.name}}" class="form-control"
+               id="completed" aria-describedby="completedErrors">
+        {% for error in form.count_of_completed_tasks.errors %}
+        <small id="completedErrors" class="form-text text-danger">{{error}}</small>
+        {% endfor %}
+    </div>
+
+    {% elif endpoint == 'employee_create' %}
+    <input type="hidden" value="0" name="{{form.count_of_completed_tasks.name}}">
+    {% endif %}
+
+
+    <br>
+
+    {{ form.submit(class = "btn btn-primary")}}
+
+</form>
+{% endblock  %}

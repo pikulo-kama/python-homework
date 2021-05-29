@@ -1,4 +1,4 @@
-{% extends "task/parent.html" %}
+{% extends "parent.html" %}
 
 {% block title %} {{title}} {% endblock %}
 
@@ -12,19 +12,38 @@
         <th>Description</th>
         <th>Created</th>
         <th>Priority</th>
+        <th>Category</th>
+        <th>Employee</th>
         <th>Is Done</th>
     </tr>
     </thead>
     {% if tasks|length > 0 %}
     <tbody>
     {% for task in tasks %}
+
+    {% set color = 'danger' if task.priority.name == 'HIGH' else 'warning' if task.priority.name == 'MEDIUM' else
+    'success' %}
     <tr>
         <td>{{task.id}}</td>
-        <td><a class="btn btn-secondary btn-sm" href="{{url_for('find_by_id', taskId=task.id)}}">{{task.title}}</a></td>
-        <td>{{task.description}}</td>
+        <td><a class="btn btn-secondary btn-sm" href="{{url_for('task_find_by_id', taskId=task.id)}}">{{task.title}}</a>
+        </td>
+        <td>{{task.description[:40]}}
+        </td>
         <td>{{task.created.strftime("%d-%m-%Y")}}</td>
-        <td>{{task.priority.name}}</td>
-        <td>{{task.is_done}}</td>
+        <td class="text-center"><p class="bg-{{color}}">{{task.priority.name}}</p></td>
+        <td>{{categories[task.category_id]}}</td>
+        <td>
+            {% if task.employee_backref|length > 0 %}
+            {% for employee in task.employee_backref %}
+            <div class="bg-info">
+                <a href="{{url_for('employee_find_by_id', employeeId=employee.id)}}">{{employee.name}}</a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-danger">No assignees</p>
+            {% endif %}
+        </td>
+        <td class="text-center"><i class="h3 {{'icon-check' if task.is_done else 'icon-check-empty'}}"></i></td>
     </tr>
     {% endfor %}
     </tbody>

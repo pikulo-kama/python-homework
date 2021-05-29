@@ -14,12 +14,15 @@ class App:
 
             app = Flask(__name__)
             app.config.from_object(properties)
+
             db = SQLAlchemy(app)
+            manager = Manager(app)
+            manager.add_command('db', MigrateCommand)
 
             cls.instance.__db = db
             cls.instance.__app = app
+            cls.instance.__manager = manager
             cls.instance.__migrate = Migrate(app, db)
-            cls.instance.__manager = Manager(app, MigrateCommand)
 
         return cls.instance
 

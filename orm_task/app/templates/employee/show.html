@@ -1,0 +1,60 @@
+{% extends "parent.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+<div class="mx-5 pt-5">
+
+    <div class="w-50">
+        <h1 class="bg-secondary display-4 text-center">{{employee.name}}</h1>
+        <table class="table text-center border-warning">
+            <thead class="bg-warning">
+            <tr>
+                <th>Total</th>
+                <th>Completed</th>
+                <th>Pending</th>
+            </tr>
+            </thead>
+            <tbody class="bg-dark">
+            <tr>
+                <td class="text-white-50">{{completed + uncompleted}}</td>
+                <td class="text-success">{{completed}}</td>
+                <td class="text-danger">{{uncompleted}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div>
+        {% if tasks.all()|length > 0 %}
+        <ul>
+            {% for task in tasks.all() %}
+            <li><a href="{{url_for('task_find_by_id', taskId=task.id)}}"
+                   class="btn btn-sm text-secondary">{{task.title}}</a><i class="{{'icon-check' if task.is_done else 'icon-check-empty'}}"></i></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="position-absolute top-50 start-50"><p class="btn-danger">{{employee.name}} have no tasks yet</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="d-flex flex-row align-items-start">
+
+        <a class="btn btn-lg btn-primary mr-5" href="{{ url_for('employee_update', employeeId=employee.id) }}">Edit</a>
+
+        <form class="pl-2" method="POST">
+
+            {{ form.csrf_token }}
+
+            <button formaction="{{ url_for('employee_delete', employeeId=employee.id)}}" class="btn b<tn-lg btn-danger"
+                    type="submit">Delete
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+{% endblock  %}
